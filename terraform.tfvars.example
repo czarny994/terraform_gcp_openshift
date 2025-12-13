@@ -1,0 +1,19 @@
+# -------- General Variables --------
+project_id = "your-gcp-project-id"
+region = "europe-central2"
+
+# -------- VPC Variables --------
+network_name = "ocp-vpc"
+subnet_master = "master-subnetwork"
+subnet_master_ip_range = "10.1.10.0/24"
+subnet_worker = "worker-subnetwork"
+subnet_worker_ip_range = "10.1.20.0/24"
+
+# -------- Router Variable --------
+router = "ocp-router"
+nat_master = "ocp-nat-master-gw"
+nat_worker = "ocp-nat-worker-gw"
+
+# -------- DNS Variables --------
+dns_zone_name = "ocp-private-zone"
+dns_domain = "your-domain.com."
