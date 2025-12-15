@@ -9,12 +9,11 @@ variable "region" {
   type        = string
   default     = "europe-central2"
 }
-
 # -------- VPC Variables --------
 variable "network_name" {
   description = "The name of the VPC network"
   type        = string
-  default     = ""
+  default     = "development"
 }
 
 variable "subnet_master" {
@@ -42,10 +41,22 @@ variable "subnet_worker_ip_range" {
   default     = "10.0.20.0/24"
 }
 
+variable "subnet_gitlab" {
+  description = "The name of the gitlab subnetwork"
+  type        = string
+  default     = "gitlab-subnetwork"
+}
+
+variable "subnet_gitlab_ip_range" {
+  description = "The IP range for the gitlab subnetwork"
+  type        = string
+  default     = "10.0.30.0/24"
+}
+
 variable "router" {
   description = "Whether to create a Cloud Router"
   type        = string
-  default     = ""
+  default     = "main"
 }
 
 variable "nat_master" {
@@ -70,12 +81,5 @@ variable "dns_zone_name" {
 variable "dns_domain" {
   description = "The DNS domain"
   type        = string
-  default     = "example.com"
+  default     = "example.com."
 }
-
-# -------- VM Variables --------
-variable "ocp_password" {
-  description = "Password for the 'ocp' user on VMs"
-  type        = string
-  sensitive   = true
-} 

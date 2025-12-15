@@ -27,6 +27,13 @@ module "vpc" {
       subnet_private_access = "true"
       subnet_flow_logs      = "true"
     },
+    {
+      subnet_name           = var.subnet_gitlab
+      subnet_ip             = var.subnet_gitlab_ip_range
+      subnet_region         = var.region
+      subnet_private_access = "true"
+      subnet_flow_logs      = "true"
+    }
   ]
 }
 
@@ -39,4 +46,9 @@ output "subnet_master_self_link" {
 output "subnet_worker_self_link" {
   description = "The self-link of the worker subnet"
   value       = module.vpc.subnets_self_links[1]
+}
+
+output "network_self_link" {
+  description = "The self-link of the VPC network"
+  value       = module.vpc.network_self_link
 }

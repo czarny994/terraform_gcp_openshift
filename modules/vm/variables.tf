@@ -1,3 +1,8 @@
+variable "project_id" {
+  type        = string
+  description = "The GCP project ID"
+}
+
 variable "instance_name" {
     type = string
     description = "Name of VM"

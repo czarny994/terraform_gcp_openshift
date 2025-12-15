@@ -63,16 +63,17 @@ resource "local_file" "private_key" {
 }
 
 module "bastion_vm" {
-  source                    = "./modules/vm"
+  source                    = "../modules/vm"
+  project_id                = var.project_id
   instance_name             = "bastion"
   machine_type              = "e2-medium"
   zone                      = "europe-central2-a"
   image                     = "projects/fedora-coreos-cloud/global/images/fedora-coreos-43-20251024-3-0-gcp-x86-64"
   disk_size                 = 100
-  network_name              = module.vpc.network_self_link
-  subnetwork_name           = module.vpc.subnets_self_links[0]
+  network_name              = local.network_self_link
+  subnetwork_name           = local.subnet_master_link
   roles                     = ["bastion", "ssh-allow"]
-  service_account_email     = google_service_account.sa.email
+  service_account_email     = local.service_account_email
   allow_stopping_for_update = true
   user                      = "ocp"
   ssh_public_key            = tls_private_key.ssh_key.public_key_openssh
