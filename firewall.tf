@@ -9,13 +9,13 @@
 # -----------------------------------------------
 
 module "network_firewall_policy" {
-  source       = "terraform-google-modules/network/google//modules/network-firewall-policy"
-  version      = "~> 13.0"
-  project_id   = var.project_id
-  policy_name  = "my-firewall-policy"
-  description  = "Test firewall policy"
-  target_vpcs  = ["projects/${var.project_id}/global/networks/${var.network_name}"]
-  
+  source      = "terraform-google-modules/network/google//modules/network-firewall-policy"
+  version     = "~> 13.0"
+  project_id  = var.project_id
+  policy_name = "my-firewall-policy"
+  description = "Test firewall policy"
+  target_vpcs = ["projects/${var.project_id}/global/networks/${var.network_name}"]
+
   depends_on = [module.vpc]
 
   rules = [

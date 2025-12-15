@@ -19,21 +19,21 @@ variable "network_name" {
 
 variable "subnet_master" {
   description = "The name of the master subnetwork"
-  type = string
-  default = "master-subnetwork"
+  type        = string
+  default     = "master-subnetwork"
 }
 
 variable "subnet_master_ip_range" {
   description = "The IP range for the master subnetwork"
   type        = string
   default     = "10.1.10.0/24"
-  
+
 }
 
 variable "subnet_worker" {
   description = "The name of the worker subnetwork"
-  type = string
-  default = "worker-subnetwork"
+  type        = string
+  default     = "worker-subnetwork"
 }
 
 variable "subnet_worker_ip_range" {

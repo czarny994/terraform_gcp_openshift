@@ -16,8 +16,8 @@ locals {
     passwd = {
       users = [
         {
-          name = "ocp"
-          groups = ["wheel", "sudo", "docker"]
+          name         = "ocp"
+          groups       = ["wheel", "sudo", "docker"]
           passwordHash = "$6$rounds=4096$saltsalt$3.SvOl.eZHZ0xxxxxxxxx"
           sshAuthorizedKeys = [
             tls_private_key.ssh_key.public_key_openssh
@@ -28,8 +28,8 @@ locals {
     systemd = {
       units = [
         {
-          name = "install-python3.service"
-          enabled = true
+          name     = "install-python3.service"
+          enabled  = true
           contents = <<-EOT
             [Unit]
             Description=Install Python3 via rpm-ostree
@@ -63,26 +63,26 @@ resource "local_file" "private_key" {
 }
 
 module "bastion_vm" {
-  source = "./modules/vm"
-    instance_name         = "bastion"
-    machine_type          = "e2-medium"
-    zone                  = "europe-central2-a"
-    image                 = "projects/fedora-coreos-cloud/global/images/fedora-coreos-43-20251024-3-0-gcp-x86-64"
-    disk_size             = 100
-    network_name          = module.vpc.network_self_link
-    subnetwork_name       = module.vpc.subnets_self_links[0]
-    roles                 = ["bastion", "ssh-allow"]
-    service_account_email = "${google_service_account.sa.email}"
-    allow_stopping_for_update = true
-    user                  = "ocp"
-    ssh_public_key        = tls_private_key.ssh_key.public_key_openssh
-    ignition_config       = local.ignition_config
-    ocp_password          = var.ocp_password
+  source                    = "./modules/vm"
+  instance_name             = "bastion"
+  machine_type              = "e2-medium"
+  zone                      = "europe-central2-a"
+  image                     = "projects/fedora-coreos-cloud/global/images/fedora-coreos-43-20251024-3-0-gcp-x86-64"
+  disk_size                 = 100
+  network_name              = module.vpc.network_self_link
+  subnetwork_name           = module.vpc.subnets_self_links[0]
+  roles                     = ["bastion", "ssh-allow"]
+  service_account_email     = google_service_account.sa.email
+  allow_stopping_for_update = true
+  user                      = "ocp"
+  ssh_public_key            = tls_private_key.ssh_key.public_key_openssh
+  ignition_config           = local.ignition_config
+  ocp_password              = var.ocp_password
 }
 
 # Output commands to check Python3 installation logs
 output "bastion_log_commands" {
-  value = <<-EOT
+  value       = <<-EOT
     
     === Check Python3 installation logs ===
     
