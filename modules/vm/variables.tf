@@ -80,7 +80,23 @@ variable "ignition_config" {
   description = "Ignition config for Fedora CoreOS"
   default     = ""
 }
-variable "ocp_password" {
+variable "password" {
   type        = string
-  description = "Password for the 'ocp' user"
+  description = "Password for the user"
+}
+
+variable "metadata_startup_script" {
+  type        = string
+  description = "Startup script to run on VM boot"
+  default     = ""
+}
+variable "attached_disk_source" {
+  type        = string
+  description = "Source of the attached disk"
+  default     = ""
+}
+variable "attached_disk_device_name" {
+  type        = string
+  description = "Device name of the attached disk"
+  default     = ""
 }

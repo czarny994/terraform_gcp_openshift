@@ -1,0 +1,109 @@
+digraph G {
+  rankdir=LR;
+  nodesep=1;
+  ranksep=1.5;
+  rankdir = "RL";
+  node [shape = rect, fontname = "sans-serif"];
+  "google_project_iam_member.sa_owner" [label="google_project_iam_member.sa_owner"];
+  "google_service_account.sa" [label="google_service_account.sa"];
+  subgraph "cluster_module.cloud-dns" {
+    label = "module.cloud-dns"
+    fontname = "sans-serif"
+    "module.cloud-dns.google_dns_managed_zone.forwarding" [label="google_dns_managed_zone.forwarding"];
+    "module.cloud-dns.google_dns_managed_zone.peering" [label="google_dns_managed_zone.peering"];
+    "module.cloud-dns.google_dns_managed_zone.private" [label="google_dns_managed_zone.private"];
+    "module.cloud-dns.google_dns_managed_zone.public" [label="google_dns_managed_zone.public"];
+    "module.cloud-dns.google_dns_managed_zone.reverse_lookup" [label="google_dns_managed_zone.reverse_lookup"];
+    "module.cloud-dns.google_dns_managed_zone.service_directory" [label="google_dns_managed_zone.service_directory"];
+    "module.cloud-dns.google_dns_record_set.cloud-static-records" [label="google_dns_record_set.cloud-static-records"];
+  }
+  subgraph "cluster_module.cloud_router" {
+    label = "module.cloud_router"
+    fontname = "sans-serif"
+    "module.cloud_router.google_compute_router.router" [label="google_compute_router.router"];
+    "module.cloud_router.google_compute_router_nat.nats" [label="google_compute_router_nat.nats"];
+  }
+  subgraph "cluster_module.network_firewall_policy" {
+    label = "module.network_firewall_policy"
+    fontname = "sans-serif"
+    "module.network_firewall_policy.google_compute_network_firewall_policy.fw_policy" [label="google_compute_network_firewall_policy.fw_policy"];
+    "module.network_firewall_policy.google_compute_network_firewall_policy_association.vpc_associations" [label="google_compute_network_firewall_policy_association.vpc_associations"];
+    "module.network_firewall_policy.google_compute_network_firewall_policy_packet_mirroring_rule.rules" [label="google_compute_network_firewall_policy_packet_mirroring_rule.rules"];
+    "module.network_firewall_policy.google_compute_network_firewall_policy_rule.rules" [label="google_compute_network_firewall_policy_rule.rules"];
+    "module.network_firewall_policy.google_compute_region_network_firewall_policy.fw_policy" [label="google_compute_region_network_firewall_policy.fw_policy"];
+    "module.network_firewall_policy.google_compute_region_network_firewall_policy_association.vpc_associations" [label="google_compute_region_network_firewall_policy_association.vpc_associations"];
+    "module.network_firewall_policy.google_compute_region_network_firewall_policy_rule.rules" [label="google_compute_region_network_firewall_policy_rule.rules"];
+  }
+  subgraph "cluster_module.vpc.module.firewall_rules" {
+    label = "module.vpc.module.firewall_rules"
+    fontname = "sans-serif"
+    "module.vpc.module.firewall_rules.google_compute_firewall.rules" [label="google_compute_firewall.rules"];
+    "module.vpc.module.firewall_rules.google_compute_firewall.rules_ingress_egress" [label="google_compute_firewall.rules_ingress_egress"];
+  }
+  subgraph "cluster_module.vpc.module.routes" {
+    label = "module.vpc.module.routes"
+    fontname = "sans-serif"
+    "module.vpc.module.routes.google_compute_route.route" [label="google_compute_route.route"];
+  }
+  subgraph "cluster_module.vpc.module.subnets" {
+    label = "module.vpc.module.subnets"
+    fontname = "sans-serif"
+    "module.vpc.module.subnets.google_compute_subnetwork.subnetwork" [label="google_compute_subnetwork.subnetwork"];
+  }
+  subgraph "cluster_module.vpc.module.vpc" {
+    label = "module.vpc.module.vpc"
+    fontname = "sans-serif"
+    "module.vpc.module.vpc.google_compute_network.network" [label="google_compute_network.network"];
+    "module.vpc.module.vpc.google_compute_shared_vpc_host_project.shared_vpc_host" [label="google_compute_shared_vpc_host_project.shared_vpc_host"];
+  }
+  "google_project_iam_member.sa_owner" -> "google_service_account.sa";
+  "module.cloud-dns.google_dns_managed_zone.forwarding" -> "module.vpc.module.firewall_rules.google_compute_firewall.rules";
+  "module.cloud-dns.google_dns_managed_zone.forwarding" -> "module.vpc.module.firewall_rules.google_compute_firewall.rules_ingress_egress";
+  "module.cloud-dns.google_dns_managed_zone.forwarding" -> "module.vpc.module.routes.google_compute_route.route";
+  "module.cloud-dns.google_dns_managed_zone.forwarding" -> "module.vpc.module.vpc.google_compute_shared_vpc_host_project.shared_vpc_host";
+  "module.cloud-dns.google_dns_managed_zone.peering" -> "module.vpc.module.firewall_rules.google_compute_firewall.rules";
+  "module.cloud-dns.google_dns_managed_zone.peering" -> "module.vpc.module.firewall_rules.google_compute_firewall.rules_ingress_egress";
+  "module.cloud-dns.google_dns_managed_zone.peering" -> "module.vpc.module.routes.google_compute_route.route";
+  "module.cloud-dns.google_dns_managed_zone.peering" -> "module.vpc.module.vpc.google_compute_shared_vpc_host_project.shared_vpc_host";
+  "module.cloud-dns.google_dns_managed_zone.private" -> "module.vpc.module.firewall_rules.google_compute_firewall.rules";
+  "module.cloud-dns.google_dns_managed_zone.private" -> "module.vpc.module.firewall_rules.google_compute_firewall.rules_ingress_egress";
+  "module.cloud-dns.google_dns_managed_zone.private" -> "module.vpc.module.routes.google_compute_route.route";
+  "module.cloud-dns.google_dns_managed_zone.private" -> "module.vpc.module.vpc.google_compute_shared_vpc_host_project.shared_vpc_host";
+  "module.cloud-dns.google_dns_managed_zone.public" -> "module.vpc.module.firewall_rules.google_compute_firewall.rules";
+  "module.cloud-dns.google_dns_managed_zone.public" -> "module.vpc.module.firewall_rules.google_compute_firewall.rules_ingress_egress";
+  "module.cloud-dns.google_dns_managed_zone.public" -> "module.vpc.module.routes.google_compute_route.route";
+  "module.cloud-dns.google_dns_managed_zone.public" -> "module.vpc.module.vpc.google_compute_shared_vpc_host_project.shared_vpc_host";
+  "module.cloud-dns.google_dns_managed_zone.reverse_lookup" -> "module.vpc.module.firewall_rules.google_compute_firewall.rules";
+  "module.cloud-dns.google_dns_managed_zone.reverse_lookup" -> "module.vpc.module.firewall_rules.google_compute_firewall.rules_ingress_egress";
+  "module.cloud-dns.google_dns_managed_zone.reverse_lookup" -> "module.vpc.module.routes.google_compute_route.route";
+  "module.cloud-dns.google_dns_managed_zone.reverse_lookup" -> "module.vpc.module.vpc.google_compute_shared_vpc_host_project.shared_vpc_host";
+  "module.cloud-dns.google_dns_managed_zone.service_directory" -> "module.vpc.module.firewall_rules.google_compute_firewall.rules";
+  "module.cloud-dns.google_dns_managed_zone.service_directory" -> "module.vpc.module.firewall_rules.google_compute_firewall.rules_ingress_egress";
+  "module.cloud-dns.google_dns_managed_zone.service_directory" -> "module.vpc.module.routes.google_compute_route.route";
+  "module.cloud-dns.google_dns_managed_zone.service_directory" -> "module.vpc.module.vpc.google_compute_shared_vpc_host_project.shared_vpc_host";
+  "module.cloud-dns.google_dns_record_set.cloud-static-records" -> "module.cloud-dns.google_dns_managed_zone.private";
+  "module.cloud-dns.google_dns_record_set.cloud-static-records" -> "module.cloud-dns.google_dns_managed_zone.public";
+  "module.cloud_router.google_compute_router.router" -> "module.vpc.module.firewall_rules.google_compute_firewall.rules";
+  "module.cloud_router.google_compute_router.router" -> "module.vpc.module.firewall_rules.google_compute_firewall.rules_ingress_egress";
+  "module.cloud_router.google_compute_router.router" -> "module.vpc.module.routes.google_compute_route.route";
+  "module.cloud_router.google_compute_router.router" -> "module.vpc.module.vpc.google_compute_shared_vpc_host_project.shared_vpc_host";
+  "module.cloud_router.google_compute_router_nat.nats" -> "module.cloud_router.google_compute_router.router";
+  "module.network_firewall_policy.google_compute_network_firewall_policy.fw_policy" -> "module.vpc.module.firewall_rules.google_compute_firewall.rules";
+  "module.network_firewall_policy.google_compute_network_firewall_policy.fw_policy" -> "module.vpc.module.firewall_rules.google_compute_firewall.rules_ingress_egress";
+  "module.network_firewall_policy.google_compute_network_firewall_policy.fw_policy" -> "module.vpc.module.routes.google_compute_route.route";
+  "module.network_firewall_policy.google_compute_network_firewall_policy.fw_policy" -> "module.vpc.module.vpc.google_compute_shared_vpc_host_project.shared_vpc_host";
+  "module.network_firewall_policy.google_compute_network_firewall_policy_association.vpc_associations" -> "module.network_firewall_policy.google_compute_network_firewall_policy.fw_policy";
+  "module.network_firewall_policy.google_compute_network_firewall_policy_packet_mirroring_rule.rules" -> "module.network_firewall_policy.google_compute_network_firewall_policy.fw_policy";
+  "module.network_firewall_policy.google_compute_network_firewall_policy_rule.rules" -> "module.network_firewall_policy.google_compute_network_firewall_policy.fw_policy";
+  "module.network_firewall_policy.google_compute_region_network_firewall_policy.fw_policy" -> "module.vpc.module.firewall_rules.google_compute_firewall.rules";
+  "module.network_firewall_policy.google_compute_region_network_firewall_policy.fw_policy" -> "module.vpc.module.firewall_rules.google_compute_firewall.rules_ingress_egress";
+  "module.network_firewall_policy.google_compute_region_network_firewall_policy.fw_policy" -> "module.vpc.module.routes.google_compute_route.route";
+  "module.network_firewall_policy.google_compute_region_network_firewall_policy.fw_policy" -> "module.vpc.module.vpc.google_compute_shared_vpc_host_project.shared_vpc_host";
+  "module.network_firewall_policy.google_compute_region_network_firewall_policy_association.vpc_associations" -> "module.network_firewall_policy.google_compute_region_network_firewall_policy.fw_policy";
+  "module.network_firewall_policy.google_compute_region_network_firewall_policy_rule.rules" -> "module.network_firewall_policy.google_compute_region_network_firewall_policy.fw_policy";
+  "module.vpc.module.firewall_rules.google_compute_firewall.rules" -> "module.vpc.module.vpc.google_compute_network.network";
+  "module.vpc.module.firewall_rules.google_compute_firewall.rules_ingress_egress" -> "module.vpc.module.vpc.google_compute_network.network";
+  "module.vpc.module.routes.google_compute_route.route" -> "module.vpc.module.subnets.google_compute_subnetwork.subnetwork";
+  "module.vpc.module.subnets.google_compute_subnetwork.subnetwork" -> "module.vpc.module.vpc.google_compute_network.network";
+  "module.vpc.module.vpc.google_compute_shared_vpc_host_project.shared_vpc_host" -> "module.vpc.module.vpc.google_compute_network.network";
+}

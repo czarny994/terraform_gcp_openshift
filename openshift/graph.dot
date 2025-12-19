@@ -1,0 +1,18 @@
+digraph G {
+  rankdir=LR;
+  nodesep=1;
+  ranksep=1.5;
+  rankdir = "RL";
+  node [shape = rect, fontname = "sans-serif"];
+  "data.terraform_remote_state.network" [label="data.terraform_remote_state.network"];
+  "local_file.private_key" [label="local_file.private_key"];
+  "tls_private_key.ssh_key" [label="tls_private_key.ssh_key"];
+  subgraph "cluster_module.bastion_vm" {
+    label = "module.bastion_vm"
+    fontname = "sans-serif"
+    "module.bastion_vm.google_compute_instance.vm_instance" [label="google_compute_instance.vm_instance"];
+  }
+  "local_file.private_key" -> "tls_private_key.ssh_key";
+  "module.bastion_vm.google_compute_instance.vm_instance" -> "data.terraform_remote_state.network";
+  "module.bastion_vm.google_compute_instance.vm_instance" -> "tls_private_key.ssh_key";
+}

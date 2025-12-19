@@ -10,9 +10,15 @@ variable "region" {
   default     = "europe-central2"
 }
 
+variable "user" {
+  description = "Username for the VM"
+  type        = string
+  default     = "ocp"
+}
+
 # -------- VM Variables --------
-variable "ocp_password" {
-  description = "Password for the 'ocp' user on VMs"
+variable "password" {
+  description = "Password for the user on VMs"
   type        = string
   sensitive   = true
 } 
